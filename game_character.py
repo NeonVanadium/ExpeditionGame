@@ -1,4 +1,5 @@
 import random
+import language
 from enum import Enum
 
 class ethnicity(Enum):
@@ -9,6 +10,35 @@ class ethnicity(Enum):
     Mauali = 4
     Ked = 5
     Naalish = 6
+
+    def get_language(self):
+        if self == ethnicity.Harrondian:
+            return language.Harrondian
+        elif self == ethnicity.Dizaki:
+            return language.Dizaki
+        elif self == ethnicity.Jianangese:
+            return language.Jianangese
+        elif self == ethnicity.Mauali:
+            return language.Mauali
+        elif self == ethnicity.Ked:
+            return language.Ked
+        elif self == ethnicity.Naalish:
+            return language.Naal_Ayan
+
+    # Returns a string containing the adjective of this ethnicity
+    def adj(self):
+        if self == ethnicity.Harrondian:
+            return "Harrondian"
+        elif self == ethnicity.Dizaki:
+            return "Dizaki"
+        elif self == ethnicity.Jianangese:
+            return "Jian-Angese"
+        elif self == ethnicity.Mauali:
+            return "Ma'uali"
+        elif self == ethnicity.Ked:
+            return "Ked"
+        elif self == ethnicity.Naalish:
+            return "Naalish"
 
 
 # defines a biological sex.
@@ -85,43 +115,40 @@ class gender(Enum):
 # - ethnicity       integer
 # - age             integer
 # - weight          integer
-# - fitness         integer
+# - is_mage         boolean
+# - vitality        integer
+# - wits            integer
 class Character:
     def __init__(self):
-        # determines how long the name should be in characters. TODO: this should really be done syllable-ways, do later
-        name_length = random.randint(2, 10)
-        self.name = ""
-
-        # TODO: Replace with genword based on ethnicity language
-        # We begin with this fencepost so only the first letter of a name is capitalized.
-        self.name += chr(random.randint(65, 90))
-        for i in range(1, name_length):
-            self.name += str.lower(chr(random.randint(65, 90)))
-
-        self.ethnicity = random.randint(1, 6)
+        self.ethnicity = Character.get_ethnicity(random.randint(1, 6))
         self.age = random.randint(16, 110)
+
+        self.name = self.ethnicity.get_language().create_word()
 
         self._gen_sex_and_gender()
         self.__gen_weight()
+        self.vitality = random.randint(1, 10)
+        self.wits = random.randint(1, 10)
 
-    def ethnicity_adj(self):
-        if self.ethnicity == 0:
-            return "Fyuren"
-        if self.ethnicity == 1:
-            return "Harrondian"
-        if self.ethnicity == 2:
-            return "Dizaki"
-        if self.ethnicity == 3:
-            return "Jian-Angese"
-        if self.ethnicity == 4:
-            return "Ma'uali"
-        if self.ethnicity == 5:
-            return "Ked"
-        if self.ethnicity == 6:
-            return "Naalish"
+    @staticmethod
+    def get_ethnicity(num):
+        if num == 0:
+            return ethnicity.Fyuren
+        if num == 1:
+            return ethnicity.Harrondian
+        if num == 2:
+            return ethnicity.Dizaki
+        if num == 3:
+            return ethnicity.Jianangese
+        if num == 4:
+            return ethnicity.Mauali
+        if num == 5:
+            return ethnicity.Ked
+        if num == 6:
+            return ethnicity.Naalish
 
     def to_string(self):
-        return "A " + str(self.age) + "-year-old " + self.ethnicity_adj() + " " + self.gender.get_noun() + " named " \
+        return "A " + str(self.age) + "-year-old " + self.ethnicity.adj() + " " + self.gender.get_noun() + " named " \
                + self.name + ". " \
                + self.gender.get_subj_pron().capitalize() + " weighs " + str(self._weight) + " pounds."
 
@@ -169,6 +196,8 @@ class Character:
             self._weight = random.randint(130, 250)
         if self.sex == sex.female:
             self._weight = random.randint(100, 220)
+        if self.sex == sex.intersex:
+            self._weight = random.randint(100, 250)
 
     def _gen_sex_and_gender(self):
         self.__gen_sex()

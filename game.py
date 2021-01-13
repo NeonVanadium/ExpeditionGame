@@ -1,9 +1,13 @@
 import party
 import util
-import random
+from language import Language
+
 
 # This is the game model, and controls all the moving parts.
+
 class Game:
+
+
     # Passes an hour of game time. An hour is one 'tick' of the world, the smallest possible unit of time.
     def __init__(self):
         self.party = party.Party()

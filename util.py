@@ -1,6 +1,7 @@
 # contains various simple classes and methods. Python might have a built in version of some of these, but I'm making
 # them myself bc I want to and you cannot stop me
 from enum import Enum
+from language import Language
 
 # #
 # Static Finals. Apparently python doesn't have final variables. Ok. These shouldn't be changed.
@@ -9,6 +10,39 @@ from enum import Enum
 # The default speed of travel, in mph
 TRAVEL_SPEED = 5
 OUTPUT_MODE = 'c'
+
+Harrondian = Language("Harrondian",
+                      ['m', 'n', 'p', 'b', "p'", 't', 'd', "t'", 'k', 'g', "k'", 'dz', "ts'", 'mv', 's', 'nz', 'h',
+                       'r',
+                       'l'],
+                      ['a', 'e', 'i', 'o'],
+                      0, 1, 1, 1, 0, 2)
+Naal_Ayan = Language("Nal Ayan",
+                     ['m', 'n', 'p', 'b', 't', 'd', 'k', 'g', 'z', 's', 'sh', 'zh', 'v', 'h', 'r',
+                      'l', 'y'],
+                     ['a', 'e', 'i', 'o', 'u'],
+                     0, 2, 1, 3, 0, 2)
+Dizaki = Language("Dizaki",
+                  ['m', 'n', 'p', 'b', 't', 'd', 'k', 'g', 'z', 's', 'sh', 'j', 'v', 'h', 'r',
+                   'l', 'y'],
+                  ['a', 'e', 'i', 'o', 'u'],
+                  1, 1, 1, 1, 0, 1)
+Jianangese = Language("Jian-angese",
+                      ['m', 'n', 'p', 'b', 't', 'd', 'k', 'g', 's', 'sh', 'zh', 'w', 'h', 'r',
+                       'l', 'ng', 'y', "'"],
+                      ['a', 'e', 'i', 'o', 'u'],
+                      0, 1, 1, 3, 0, 1)
+Ked = Language("Ked",
+               ['m', 'n', 'p', 'b', 't', 'd', 'q', 's', 'z', 'sh', 'zh', 'w', 'hh', 'kh', 'r',
+                'l', 'y', "'"],
+               ['a', 'e', 'i', 'o', 'u'],
+               0, 1, 0, 3, 1, 3)
+Mauali = Language("Mauali",
+                  ['m', 'n', 'p', 'b', 't', 'd', 'q', 's', 'z', 'ch', 'll', 'w', 'h', 'r',
+                   'l', 'y', "'"],
+                  ['a', 'e', 'i', 'o', 'u'],
+                  0, 2, 0, 3, 1, 3)
+
 
 # #
 # Value classes
@@ -46,7 +80,7 @@ def confirm(prompt):
 # Allows easier expanding into graphical text if I choose to do so later.
 def text(string):
     if OUTPUT_MODE == 'c':  # c for console
-        print(string)   # TODO: auto-wrapper
+        print(string)  # TODO: auto-wrapper
 
 
 # a contains method that only returns true if the sequence is surrounded by whitespace
@@ -78,7 +112,7 @@ class Direction(Enum):
     West = 7
     Northwest = 8
 
-# Helper for travel.
+    # Helper for travel.
     @staticmethod
     def __get_direction_string(horizontal, vertical):
         if vertical == 1:
