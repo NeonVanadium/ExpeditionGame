@@ -9,3 +9,5 @@ class language:
     def to_string(self):
         print(self.name)
 
+    def create_word(self):
+        pass
