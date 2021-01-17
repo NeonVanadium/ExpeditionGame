@@ -1,5 +1,6 @@
 import party
 import util
+from landmark import Landmark
 from language import Language
 
 
@@ -7,10 +8,11 @@ from language import Language
 
 class Game:
 
-
     # Passes an hour of game time. An hour is one 'tick' of the world, the smallest possible unit of time.
     def __init__(self):
         self.party = party.Party()
+        self.landmarks = []
+        self.landmarks.insert(0, Landmark(300, 0, "obelisk"))
 
     def run(self):
         util.text("Your party gathers at the Point of No Return. Among you are:")
@@ -60,6 +62,9 @@ class Game:
             query = input("type 'quit' to quit. Otherwise, type a direction and speed to travel.\n")
             print(self.parse_command(query))
             print(self.party.to_string())
+            for landmark in self.landmarks:
+                self.party.check_see(landmark)
+
 
         print("Game quit.")
 

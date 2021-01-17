@@ -37,6 +37,11 @@ class Party:
         return str(self._location.x) + ", " + str(self._location.y) \
                + ". Food: " + str(self._food) + ", Water: " + str(self._water)
 
+    def check_see(self, object):
+        for character in self.members:
+            if character.wits_check() > 10:
+                util.text(character.name + " spots " + object.get_name() + "!")
+
     # has the party travel.
     # Returns: A string describing the travel that took place.
     # Arguments:

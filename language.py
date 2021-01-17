@@ -31,14 +31,23 @@ class Language:
 
     def _create_word(self, syllables):
         word = ""
-        for i in range(1, syllables):
-            for j in range(0, random.randint(self.min_onset, self.max_onset)):
-                word += str.lower(self.consonants[random.randint(0, len(self.consonants) - 1)])
+        for i in range(0, syllables):
+            # We only use the onset rules once here. See following comment.
+            if i == 0:
+                for j in range(0, random.randint(self.min_onset, self.max_onset)):
+                    word += str.lower(self.consonants[random.randint(0, len(self.consonants) - 1)])
 
             for k in range(0, random.randint(self.min_nucleus, self.max_nucleus)):
                 word += str.lower(self.vowels[random.randint(0, len(self.vowels) - 1)])
 
-            for l in range(0, random.randint(self.min_coda, self.max_coda)):
+            # This prevents gigantic consonant clusters from forming in the middle of words, by recognizing that
+            # the coda of one non-word-final syllable becomes the onset of the next syllable
+            if i == syllables:
+                this_coda_max = self.max_coda
+            else:
+                this_coda_max = self.max_onset
+
+            for l in range(0, random.randint(self.min_coda, this_coda_max)):
                 word += str.lower(self.consonants[random.randint(0, len(self.consonants) - 1)])
         return word.capitalize()
 
@@ -55,9 +64,9 @@ Naal_Ayan = Language("Nal Ayan",
                      ['m', 'n', 'p', 'b', 't', 'd', 'k', 'g', 'z', 's', 'sh', 'j', 'v', 'h', 'r',
                       'l', 'y'],
                      ['a', 'e', 'i', 'o', 'u'],
-                     0, 3, 1, 3, 0, 2)
+                     0, 2, 1, 2, 0, 2)
 Dizaki = Language("Dizaki",
-                  ['m', 'n', 'p', 'b', 't', 'd', 'k', 'g', 'z', 's', 'sh', 'j', 'v', 'h', 'r',
+                  ['m', 'n', 'p', 'b', 't', 'd', 'th', 'dh', 'k', 'g', 'kh', 'gh', 's', 'sh', 'j', 'v', 'h', 'r',
                    'l', 'y'],
                   ['a', 'e', 'i', 'o', 'u'],
                   1, 1, 1, 1, 0, 1)
@@ -70,9 +79,9 @@ Ked = Language("Ked",
                ['m', 'n', 'p', 'b', 't', 'd', 'q', 's', 'z', 'sh', 'zh', 'w', 'hh', 'kh', 'r',
                 'l', 'y', "'"],
                ['a', 'e', 'i', 'o', 'u'],
-               0, 1, 0, 3, 1, 3)
+               0, 1, 0, 2, 1, 3)
 Mauali = Language("Mauali",
-                  ['m', 'n', 'p', 'b', 't', 'd', 'qu', 'c', 'g', 's', 'z', 'ch', 'll', 'h', 'r',
+                  ['m', 'n', 'p', 'b', 't', 'd', 'c', 'g', 's', 'z', 'ch', 'll', 'h', 'r',
                    'l'],
                   ['a', 'e', 'i', 'o', 'u'],
-                  0, 2, 1, 2, 1, 2)
+                  0, 2, 1, 2, 1, 1)

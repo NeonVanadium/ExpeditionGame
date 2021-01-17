@@ -1,6 +1,7 @@
 import random
 import language
 from enum import Enum
+from landmark import Landmark
 
 class ethnicity(Enum):
     Fyuren = 0
@@ -202,3 +203,13 @@ class Character:
     def _gen_sex_and_gender(self):
         self.__gen_sex()
         self.__gen_gender()
+
+    # This character rolls a d20 and adds their wits score to it.
+    # returns   int
+    def wits_check(self):
+        return random.randint(1, 20) + self.wits
+
+    # This character rolls a d20 and adds their vitality score to it.
+    # returns   int
+    def vitality_check(self):
+        return random.randint(1, 20) + self.vitality
